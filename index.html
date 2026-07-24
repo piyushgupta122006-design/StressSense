@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>StressSense — AI Stress Detection</title>
+  <meta name="description" content="StressSense estimates your stress level from typing rhythm and device usage patterns. A wellness demo tool." />
+  <link rel="stylesheet" href="style.css" />
+  <!-- Chart.js via CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════════
+     NAVIGATION
+     ═══════════════════════════════════════════════════════ -->
+<header class="navbar">
+  <div class="container navbar__inner">
+
+    <div class="navbar__brand" data-nav="home" style="cursor:pointer;">
+      <div class="navbar__logo">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke-width="2"
+             stroke-linecap="round" stroke-linejoin="round">
+          <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+        </svg>
+      </div>
+      StressSense
+    </div>
+
+    <nav>
+      <ul class="navbar__nav">
+        <li><a href="#" data-nav="home">Home</a></li>
+        <li><a href="#" data-nav="test">Take Test</a></li>
+        <li><a href="#" data-nav="results">Results</a></li>
+        <li><a href="#" data-nav="how-it-works">How it Works</a></li>
+      </ul>
+    </nav>
+
+  </div>
+</header>
+
+<main>
+
+<!-- ═══════════════════════════════════════════════════════
+     PAGE: HOME
+     ═══════════════════════════════════════════════════════ -->
+<section id="page-home" class="page">
+  <div class="home-hero">
+    <div class="home-hero__inner">
+
+      <div class="hero-icon animate-fadeup">
+        <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+             stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+        </svg>
+      </div>
+
+      <h1 class="heading-xl animate-fadeup delay-1">
+        A mirror for your<br />digital well-being.
+      </h1>
+
+      <p class="text-muted mt-4 animate-fadeup delay-2"
+         style="font-size:1.1rem;max-width:580px;margin-left:auto;margin-right:auto;line-height:1.75;">
+        StressSense analyzes your typing rhythm and device usage patterns to estimate
+        your current cognitive load. No intrusive questions, just honest data from
+        your fingertips.
+      </p>
+
+      <div class="hero-ctas animate-fadeup delay-3">
+        <button class="btn btn--primary" data-action="start">Start Assessment</button>
+        <button class="btn btn--secondary" data-action="how">How it Works</button>
+      </div>
+
+      <!-- Feature highlights -->
+      <div class="grid-3 mt-12 animate-fadeup delay-4" style="gap:14px;max-width:700px;margin-left:auto;margin-right:auto;">
+        <div class="card card--muted" style="padding:20px;text-align:center;">
+          <div style="font-size:1.4rem;margin-bottom:8px;color:var(--color-primary);">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="margin:0 auto;">
+              <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+            </svg>
+          </div>
+          <div class="heading-sm" style="margin-bottom:4px;">Typing Analysis</div>
+          <div style="font-size:.8rem;color:var(--color-text-muted);">Speed, rhythm &amp; error patterns</div>
+        </div>
+        <div class="card card--muted" style="padding:20px;text-align:center;">
+          <div style="font-size:1.4rem;margin-bottom:8px;color:var(--color-primary);">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="margin:0 auto;">
+              <rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/>
+            </svg>
+          </div>
+          <div class="heading-sm" style="margin-bottom:4px;">Usage Context</div>
+          <div style="font-size:.8rem;color:var(--color-text-muted);">Screen time &amp; night habits</div>
+        </div>
+        <div class="card card--muted" style="padding:20px;text-align:center;">
+          <div style="font-size:1.4rem;margin-bottom:8px;color:var(--color-primary);">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="margin:0 auto;">
+              <circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/>
+            </svg>
+          </div>
+          <div class="heading-sm" style="margin-bottom:4px;">PSS Classification</div>
+          <div style="font-size:.8rem;color:var(--color-text-muted);">Low / Moderate / High</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════
+     PAGE: TEST
+     ═══════════════════════════════════════════════════════ -->
+<section id="page-test" class="page">
+  <div class="test-page">
+    <div class="container container--mid">
+
+      <div class="animate-fadeup">
+        <h1 class="heading-lg">Stress Assessment</h1>
+        <p class="text-muted mt-4" style="font-size:.925rem;">
+          Complete the typing exercise and adjust the sliders to reflect your device usage today.
+        </p>
+      </div>
+
+      <div class="test-layout">
+
+        <!-- ── Typing Panel ──────────────────────────────── -->
+        <div class="card animate-fadeup delay-1" style="display:flex;flex-direction:column;gap:16px;">
+          <div>
+            <div class="panel-title">1. Cognitive Rhythm</div>
+            <div class="panel-sub">
+              Type the paragraph below as naturally as possible. We measure speed, errors, and rhythm.
+            </div>
+          </div>
+
+          <div class="typing-prompt" id="typing-prompt">
+            The quick brown fox jumps over the lazy dog. Pack my box with five dozen liquor jugs.
+            How vexingly quick daft zebras jump! A completely focused mind writes seamlessly,
+            while a busy one pauses and hesitates.
+          </div>
+
+          <textarea
+            id="typing-textarea"
+            class="typing-area"
+            placeholder="Start typing here..."
+            spellcheck="false"
+            autocomplete="off"
+            autocorrect="off"
+            autocapitalize="off"
+          ></textarea>
+
+          <div>
+            <div class="flex justify-between items-center mb-4" style="font-size:.8rem;color:var(--color-text-muted);">
+              <span>Words typed</span>
+              <span id="word-progress-label">0 / 20</span>
+            </div>
+            <div class="progress-bar-wrap">
+              <div class="progress-bar-fill" id="word-progress-bar" style="width:0%"></div>
+            </div>
+          </div>
+
+          <div class="stat-grid">
+            <div class="stat-box">
+              <div class="label-caps mb-4">Speed</div>
+              <div class="stat-box__value" id="stat-wpm">0 <span>WPM</span></div>
+            </div>
+            <div class="stat-box">
+              <div class="label-caps mb-4">Errors</div>
+              <div class="stat-box__value" id="stat-error">0.0<span>%</span></div>
+            </div>
+            <div class="stat-box">
+              <div class="label-caps mb-4">Words</div>
+              <div class="stat-box__value" id="stat-words">0<span>/20</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── Behavior Panel ────────────────────────────── -->
+        <div style="display:flex;flex-direction:column;gap:20px;">
+
+          <div class="card animate-fadeup delay-2">
+            <div class="panel-title">2. Usage Context</div>
+            <div class="panel-sub">Estimate your device usage for the past 24 hours.</div>
+
+            <div class="demo-info-note">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                   stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;margin-top:1px;">
+                <circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/>
+              </svg>
+              <span>Typing metrics above are captured live as you type. Screen time, night usage, and app switching are simulated here for this web demo — the Android app will read these automatically from your device.</span>
+            </div>
+
+            <div style="display:flex;flex-direction:column;gap:28px;">
+
+              <!-- Screen Time -->
+              <div class="slider-wrap">
+                <div class="slider-header">
+                  <label for="slider-screen-time">Total Screen Time</label>
+                  <span class="slider-value" id="val-screen-time">6.0 hrs</span>
+                </div>
+                <input
+                  type="range"
+                  id="slider-screen-time"
+                  min="0" max="16" step="0.5" value="6"
+                  data-min="0" data-max="16"
+                />
+              </div>
+
+              <!-- Night Usage -->
+              <div class="slider-wrap">
+                <div class="slider-header">
+                  <label for="slider-night-usage">Night Usage (12AM–5AM)</label>
+                  <span class="slider-value" id="val-night-usage">0.5 hrs</span>
+                </div>
+                <input
+                  type="range"
+                  id="slider-night-usage"
+                  min="0" max="5" step="0.5" value="0.5"
+                  data-min="0" data-max="5"
+                />
+              </div>
+
+              <!-- App Switches -->
+              <div class="slider-wrap">
+                <div class="slider-header">
+                  <label for="slider-app-switches">App Switches per Day</label>
+                  <span class="slider-value" id="val-app-switches">45</span>
+                </div>
+                <input
+                  type="range"
+                  id="slider-app-switches"
+                  min="0" max="200" step="5" value="45"
+                  data-min="0" data-max="200"
+                />
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Analyze button card -->
+          <div class="card card--primary-tint animate-fadeup delay-3"
+               style="display:flex;flex-direction:column;align-items:center;gap:12px;padding:28px 24px;">
+            <button id="analyze-btn" class="btn btn--primary btn--full" disabled>
+              Analyze My Stress
+            </button>
+            <p id="analyze-hint" class="text-muted" style="font-size:.8rem;text-align:center;margin:0;">
+              Type at least 20 words to enable analysis
+            </p>
+          </div>
+
+        </div>
+      </div><!-- /.test-layout -->
+    </div><!-- /.container -->
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════
+     PAGE: RESULTS
+     ═══════════════════════════════════════════════════════ -->
+<section id="page-results" class="page">
+  <div class="results-page">
+    <div class="container container--mid">
+
+      <div class="animate-fadeup" style="margin-bottom:28px;">
+        <h1 class="heading-lg">Your Results</h1>
+        <p class="text-muted mt-4" style="font-size:.9rem;">
+          Based on your typing patterns and self-reported usage.
+        </p>
+      </div>
+
+      <!-- Top 3-column grid -->
+      <div class="results-top-grid" style="margin-bottom:32px;">
+
+        <!-- Score card -->
+        <div class="score-card animate-fadeup delay-1">
+          <div class="score-card__bar" id="score-bar"></div>
+          <p class="label-caps" id="result-label" style="margin-bottom:16px;">Estimated Stress Level</p>
+          <div class="score-card__number" id="score-number">—</div>
+          <div id="category-badge" class="category-badge">—</div>
+        </div>
+
+        <!-- Donut chart -->
+        <div class="card animate-fadeup delay-2" style="display:flex;flex-direction:column;">
+          <p class="label-caps text-center" style="margin-bottom:16px;">Model Confidence</p>
+          <div class="donut-wrap" style="flex:1;">
+            <canvas id="donut-chart" width="200" height="200"></canvas>
+            <div class="donut-center">
+              <span class="donut-center-value" id="donut-center-val">—</span>
+            </div>
+          </div>
+          <div class="conf-legend" id="conf-legend"></div>
+        </div>
+
+        <!-- Actions -->
+        <div class="animate-fadeup delay-3"
+             style="display:flex;flex-direction:column;gap:14px;justify-content:center;">
+          <div class="card card--primary-tint" style="flex:1;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:14px;padding:28px 20px;">
+            <p class="text-muted" style="font-size:.85rem;text-align:center;">
+              Want to track how your stress changes over time? Retake the test after a few hours of work.
+            </p>
+            <button class="btn btn--primary btn--full" data-action="retake">Retake Test</button>
+            <button class="btn btn--outline btn--full" data-action="how">How it Works</button>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Feature signals -->
+      <div class="animate-fadeup delay-2" style="margin-bottom:32px;">
+        <h2 class="heading-md mb-6">Feature Signals</h2>
+        <div class="signals-grid" id="signals-grid"></div>
+      </div>
+
+      <!-- Trend chart (hidden until ≥ 2 entries) -->
+      <div id="trend-section" class="card animate-fadeup delay-3" style="display:none;margin-bottom:32px;">
+        <h2 class="heading-md mb-6">Stress Trend</h2>
+        <div class="chart-container" style="height:260px;">
+          <canvas id="line-chart"></canvas>
+        </div>
+      </div>
+
+    </div><!-- /.container -->
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════
+     PAGE: HOW IT WORKS
+     ═══════════════════════════════════════════════════════ -->
+<section id="page-how-it-works" class="page">
+  <div class="hiw-page">
+    <div class="container container--narrow">
+
+      <!-- Header -->
+      <div class="text-center animate-fadeup" style="margin-bottom:48px;">
+        <h1 class="heading-xl">How StressSense Works</h1>
+        <p class="text-muted mt-4" style="font-size:1.05rem;max-width:560px;margin-left:auto;margin-right:auto;">
+          A transparent look at how we translate your digital behaviour into mental-state insights.
+        </p>
+      </div>
+
+      <!-- Pipeline -->
+      <div class="card animate-fadeup delay-1" style="margin-bottom:40px;">
+        <h2 class="heading-md text-center mb-8">The Assessment Pipeline</h2>
+        <div class="pipeline">
+
+          <div class="pipeline-step">
+            <div class="pipeline-icon">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 20h9M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/>
+              </svg>
+            </div>
+            <div class="pipeline-title">1. Data Collection</div>
+            <div class="pipeline-desc">Keystroke timing and self-reported app usage.</div>
+          </div>
+
+          <div class="pipeline-arrow">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M5 12h14M12 5l7 7-7 7"/>
+            </svg>
+          </div>
+
+          <div class="pipeline-step">
+            <div class="pipeline-icon">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+              </svg>
+            </div>
+            <div class="pipeline-title">2. Feature Extraction</div>
+            <div class="pipeline-desc">Calculating rhythm variance, WPM, and usage impact.</div>
+          </div>
+
+          <div class="pipeline-arrow">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M5 12h14M12 5l7 7-7 7"/>
+            </svg>
+          </div>
+
+          <div class="pipeline-step">
+            <div class="pipeline-icon">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/>
+              </svg>
+            </div>
+            <div class="pipeline-title">3. Classification</div>
+            <div class="pipeline-desc">Weighted heuristic model mapped to PSS scales.</div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Science section -->
+      <div style="margin-bottom:40px;" class="animate-fadeup delay-2">
+        <h2 class="heading-lg mb-6">The Science of Digital Phenotyping</h2>
+        <p class="text-muted" style="margin-bottom:24px;line-height:1.8;">
+          "Digital phenotyping" is the moment-by-moment quantification of the individual-level
+          human phenotype using data from personal digital devices. StressSense focuses on two
+          main categories:
+        </p>
+
+        <div class="grid-2" style="gap:20px;">
+
+          <div class="card card--muted">
+            <div class="science-card-header">
+              <div class="science-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M4 7V4h16v3M9 20h6M12 4v16"/>
+                </svg>
+              </div>
+              <h3 class="heading-sm">Typing Kinematics</h3>
+            </div>
+            <p style="font-size:.85rem;color:var(--color-text-muted);line-height:1.75;">
+              Cognitive load affects motor control. When stressed, people tend to type with higher
+              variance in timing (rhythm) and make more uncorrected errors. A smooth, rhythmic
+              typing pattern usually indicates a state of flow or low stress.
+            </p>
+          </div>
+
+          <div class="card card--muted">
+            <div class="science-card-header">
+              <div class="science-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/>
+                </svg>
+              </div>
+              <h3 class="heading-sm">Usage Context</h3>
+            </div>
+            <p style="font-size:.85rem;color:var(--color-text-muted);line-height:1.75;">
+              Excessive screen time, late-night device usage (disrupting circadian rhythms), and
+              frequent context-switching (app hopping) are strong behavioural correlates with
+              heightened anxiety and stress levels.
+            </p>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- PSS Scale -->
+      <div class="card card--primary-tint animate-fadeup delay-3" style="margin-bottom:40px;">
+        <h2 class="heading-md mb-4">The Perceived Stress Scale (PSS)</h2>
+        <p class="text-muted" style="font-size:.875rem;line-height:1.75;margin-bottom:24px;">
+          The StressSense score (0–40) approximates the ranges of the standard Perceived Stress
+          Scale used in clinical psychology research:
+        </p>
+        <div class="pss-grid">
+          <div class="pss-box">
+            <div class="pss-range pss-range--low">0 – 13</div>
+            <div class="pss-label">Low Stress</div>
+          </div>
+          <div class="pss-box">
+            <div class="pss-range pss-range--moderate">14 – 26</div>
+            <div class="pss-label">Moderate Stress</div>
+          </div>
+          <div class="pss-box">
+            <div class="pss-range pss-range--high">27 – 40</div>
+            <div class="pss-label">High Perceived Stress</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Feature weights -->
+      <div class="card animate-fadeup delay-4" style="margin-bottom:40px;">
+        <h2 class="heading-md mb-6">How the Score is Calculated</h2>
+        <p class="text-muted" style="font-size:.875rem;margin-bottom:20px;line-height:1.75;">
+          Each signal is normalised to a 0–1 stress contribution, then combined using the
+          following weights:
+        </p>
+        <div style="display:flex;flex-direction:column;gap:14px;">
+          <!-- Weight bars -->
+          <div id="weight-bars"></div>
+        </div>
+      </div>
+
+      <!-- CTA -->
+      <div class="text-center animate-fadeup delay-5"
+           style="padding-top:32px;border-top:1px solid var(--color-border);margin-bottom:16px;">
+        <button class="btn btn--primary" data-action="start">Start Your Assessment</button>
+      </div>
+
+    </div><!-- /.container -->
+  </div>
+</section>
+
+</main>
+
+<!-- ═══════════════════════════════════════════════════════
+     FOOTER
+     ═══════════════════════════════════════════════════════ -->
+<footer class="footer">
+  <div class="container">
+    <p>
+      StressSense is a wellness demo tool, not a substitute for professional mental health assessment.
+      If you are struggling, please reach out to a qualified professional.
+    </p>
+  </div>
+</footer>
+
+<script src="script.js"></script>
+<script>
+  /* ── Build weight bars on how-it-works page ── */
+  (function() {
+    const weights = [
+      { label: 'Typing Speed',    pct: 20, color: '#3d7a72' },
+      { label: 'Error Rate',      pct: 20, color: '#3d7a72' },
+      { label: 'Screen Time',     pct: 20, color: '#3d7a72' },
+      { label: 'Rhythm Variation',pct: 15, color: '#4e9b91' },
+      { label: 'Night Usage',     pct: 15, color: '#4e9b91' },
+      { label: 'App Switching',   pct: 10, color: '#7dbdb6' },
+    ];
+    const container = document.getElementById('weight-bars');
+    if (!container) return;
+    container.innerHTML = weights.map(w => `
+      <div>
+        <div style="display:flex;justify-content:space-between;font-size:.8rem;margin-bottom:6px;">
+          <span style="font-weight:500;">${w.label}</span>
+          <span style="font-weight:700;color:${w.color};">${w.pct}%</span>
+        </div>
+        <div style="height:8px;background:var(--color-bg-muted);border-radius:9999px;overflow:hidden;">
+          <div style="height:100%;width:${w.pct}%;background:${w.color};border-radius:9999px;"></div>
+        </div>
+      </div>`).join('');
+  })();
+
+  /* ── Slider fill track for webkit ── */
+  document.querySelectorAll('input[type="range"]').forEach(function(slider) {
+    function updateFill() {
+      var min = parseFloat(slider.min) || 0;
+      var max = parseFloat(slider.max) || 100;
+      var val = parseFloat(slider.value);
+      var pct = ((val - min) / (max - min)) * 100;
+      slider.style.setProperty('--pct', pct + '%');
+    }
+    slider.addEventListener('input', updateFill);
+    updateFill();
+  });
+
+  /* ── Word progress bar update (augments script.js) ── */
+  var origUpdateTypingUI = window.__origUpdateTypingUI;
+  (function patchWordProgress() {
+    var origKeyDown = document.getElementById('typing-textarea');
+    if (!origKeyDown) return;
+    origKeyDown.addEventListener('keydown', function() {
+      setTimeout(function() {
+        var label = document.getElementById('word-progress-label');
+        var bar   = document.getElementById('word-progress-bar');
+        if (!label || !bar || typeof typing === 'undefined') return;
+        var words = typing.wordCount;
+        if (label) label.textContent = words + ' / 20';
+        if (bar)   bar.style.width = Math.min(100, (words / 20) * 100) + '%';
+      }, 0);
+    });
+  })();
+
+  /* ── Brand logo click navigates home ── */
+  document.querySelector('.navbar__brand').addEventListener('click', function(e) {
+    e.preventDefault();
+    navigateTo('home');
+  });
+</script>
+</body>
+</html>
